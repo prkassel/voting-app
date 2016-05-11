@@ -1,0 +1,19 @@
+<% include templates/header %>
+    <h2><%= question %></h2>
+    <form method="post" action="/vote">
+      <div class="form-group">
+      <select class="form-control" name="vote">
+    <% for (var i = 0; i < options.length; i++) { %>
+      <option>
+      <%= options[i] %>
+    </option>
+    <% } %>
+</select>
+</div>
+<input type="hidden" value="<%= id %>" name="poll_id">
+<div class="form-group">
+<button class="btn btn-primary">Vote</button>
+</div>
+</form>
+
+<% include templates/footer %>

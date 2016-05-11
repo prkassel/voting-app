@@ -3,6 +3,7 @@ module.exports = function(router, passport) {
   router.use(cookieParser());
 
 var Poll = require('../models/polls');
+var Vote = require('../models/vote');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -63,9 +64,23 @@ router.get('/poll/:id', function(req, res) {
     if (err) {
       res.send(err);
     }
-    res.json(poll);
+    res.render('vote', {question: poll.question, options: poll.options, id: poll.id});
   });
 });
+
+router.post('/vote', function(req, res) {
+  var newVote = new Vote({
+    poll: req.body.poll_id,
+    vote: req.body.vote
+  });
+  newVote.save(function(err, vote) {
+    if(err) {
+      res.send(err);
+    }
+    res.json(vote);
+  });
+});
+
 function isLoggedIn(req, res, next) {
   if (req.isAuthenticated()) {
     return next();
