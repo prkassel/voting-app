@@ -1,0 +1,44 @@
+<!doctype html>
+<html>
+<head>
+    <title>Node Authentication</title>
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css"> <!-- load bootstrap css -->
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css"> <!-- load fontawesome -->
+    <style>
+        body        { padding-top:80px; }
+    </style>
+</head>
+<body>
+<div class="container">
+
+<div class="col-sm-6 col-sm-offset-3">
+
+    <h1><span class="fa fa-sign-in"></span> New Poll</h1>
+
+    <form action="/newpoll" method="post">
+      <div class="form-group">
+          <label>Question</label>
+          <input type="text" class="form-control" name="question" placeholder="Enter Your Question Here">
+      </div>
+      <div id="allOptions">
+        <h4>Answer Options</h4>
+      <div class="form-group">
+          <label>Option</label>
+          <input type="text" class="form-control" name="option" placeholder="Write Your Option Here">
+      </div>
+    </div>
+          <button type="button" class="btn btn-lg btn-success option">+</button>
+        <button type="submit" class="btn btn-warning btn-lg">Create Poll</button>
+    </form>
+
+    <hr>
+
+    <p>Already have an account? <a href="/login">Login</a></p>
+    <p>Or go <a href="/">home</a>.</p>
+
+</div>
+</div>
+<script   src="https://code.jquery.com/jquery-2.2.3.min.js"   integrity="sha256-a23g1Nt4dtEYOj7bR+vTu7+T8VP13humZFBJNIYoEJo="   crossorigin="anonymous"></script>
+<script src="js/main.js"></script>
+</body>
+</html>

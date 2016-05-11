@@ -29,6 +29,8 @@ function(req, email, password, done) {
       else {
         var newUser = new User();
 
+        newUser.local.firstName = req.body.firstName;
+        newUser.local.lastName = req.body.lastName;
         newUser.local.email = email;
         newUser.local.password = newUser.generateHash(password);
         newUser.save(function(err) {

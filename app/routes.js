@@ -1,4 +1,8 @@
+var cookieParser = require('cookie-parser');
 module.exports = function(router, passport) {
+  router.use(cookieParser());
+
+var Poll = require('../models/polls');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -34,6 +38,34 @@ router.get('/logout', function(req, res) {
   res.redirect('/');
 });
 
+router.get('/newpoll', function(req, res) {
+  res.render('newpoll');
+});
+
+router.post('/newpoll', function(req, res) {
+  var newPoll = new Poll({
+    user: req.user.id,
+    question: req.body.question,
+    options: req.body.option
+  });
+
+  newPoll.save(function(err, poll) {
+    if (err) {
+      throw err;
+    }
+    console.log('Poll created');
+    res.redirect('/poll/' + poll.id);
+  });
+});
+
+router.get('/poll/:id', function(req, res) {
+  Poll.findById(req.params.id, function(err, poll) {
+    if (err) {
+      res.send(err);
+    }
+    res.json(poll);
+  });
+});
 function isLoggedIn(req, res, next) {
   if (req.isAuthenticated()) {
     return next();
