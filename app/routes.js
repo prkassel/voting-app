@@ -48,7 +48,7 @@ router.get('/logout', function(req, res) {
   res.redirect('/');
 });
 
-router.get('/newpoll', function(req, res) {
+router.get('/newpoll', isLoggedIn, function(req, res) {
   res.render('newpoll');
 });
 
@@ -61,7 +61,7 @@ router.post('/newpoll', function(req, res) {
 
   newPoll.save(function(err, poll) {
     if (err) {
-      throw err;
+      res.send(err);
     }
     console.log('Poll created');
     res.redirect('/poll/' + poll.id);
@@ -69,9 +69,15 @@ router.post('/newpoll', function(req, res) {
 });
 
 router.get('/poll/:id', function(req, res) {
-  Poll.findById(req.params.id, function(err, poll) {
+  Poll.findOne({_id: req.params.id}, function(err, poll) {
     if (err) {
       res.send(err);
+      return;
+    }
+
+    if (!poll) {
+      res.send('There was something wrong with your request');
+      return;
     }
 
     Vote.aggregate([{

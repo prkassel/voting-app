@@ -17,12 +17,12 @@
 </form>
 
 <div class="displayVotes">
-<% for (var i = 0; i < vote.length; i++) { %>
-<p><%= vote[i]._id + " -  " + vote[i].total %></p>
-<% } %>
+  <canvas id="myChart" width: "400" height: "400"></canvas>
+
 </div>
 </div> <!-- /container -->
 <script   src="https://code.jquery.com/jquery-2.2.3.min.js"   integrity="sha256-a23g1Nt4dtEYOj7bR+vTu7+T8VP13humZFBJNIYoEJo="   crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.1.2/Chart.bundle.min.js"></script>
 <script src="/js/vote.js"></script>
 <script src="/js/main.js"></script>
 </body>
