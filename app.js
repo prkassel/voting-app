@@ -8,8 +8,10 @@ var mongoose = require('mongoose');
 var passport = require('passport');
 var flash = require('connect-flash');
 var session = require('express-session')
+var helpers = require('express-helpers');
 
 var app = express();
+helpers(app);
 
 require('dotenv').config();
 mongoose.connect(process.env.MONGODB_URI);

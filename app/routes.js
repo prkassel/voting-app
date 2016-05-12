@@ -7,7 +7,10 @@ var Vote = require('../models/vote');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
+  Poll.find(function(err, polls) {
+    console.log(polls);
+    res.render('index', { title: 'Express', polls: polls });
+  })
 });
 
 router.get('/login', function(req, res) {
@@ -31,7 +34,13 @@ router.post('/signup', passport.authenticate('local-signup', {
 }));
 
 router.get('/profile', isLoggedIn, function(req, res) {
-  res.render('profile', { user: req.user});
+  Poll.find({user: req.user.id}, function(err, polls) {
+    if (err) {
+      res.send(err);
+    }
+    console.log(polls);
+    res.render('profile', {user: req.user, polls: polls});
+  });
 });
 
 router.get('/logout', function(req, res) {
@@ -64,7 +73,14 @@ router.get('/poll/:id', function(req, res) {
     if (err) {
       res.send(err);
     }
-    res.render('vote', {question: poll.question, options: poll.options, id: poll.id});
+
+    Vote.aggregate([{
+      $match: {poll: req.params.id}}, {
+      $group: {_id: "$vote", total: {$sum : 1}}}
+    ], function(err, vote) {
+      console.log(vote);
+      res.render('vote', {question: poll.question, options: poll.options, id: poll.id, vote: vote});
+    });
   });
 });
 
@@ -77,7 +93,23 @@ router.post('/vote', function(req, res) {
     if(err) {
       res.send(err);
     }
-    res.json(vote);
+    res.redirect('/poll/' + vote.poll);
+  });
+});
+
+router.get('/api/:id', function(req, res) {
+  Poll.findById(req.params.id, function(err, poll) {
+    if (err) {
+      res.send(err);
+    }
+
+    Vote.aggregate([{
+      $match: {poll: req.params.id}}, {
+      $group: {_id: "$vote", total: {$sum : 1}}}
+    ], function(err, vote) {
+      console.log(vote);
+      res.json({question: poll.question, options: poll.options, id: poll.id, vote: vote});
+    });
   });
 });
 
