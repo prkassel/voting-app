@@ -19,7 +19,7 @@ $(document).ready(function() {
     });
     var ctx = $('#myChart');
     var myChart = new Chart(ctx, {
-      type: 'bar',
+      type: 'doughnut',
       data: {
         labels: labels,
         datasets: [{
@@ -28,15 +28,6 @@ $(document).ready(function() {
           backgroundColor: colors
         }]
       },
-      options: {
-        scales: {
-          yAxes: [{
-            ticks: {
-              beginAtZero: true
-            }
-          }]
-        }
-      }
     });
   });
 });
