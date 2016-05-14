@@ -1,24 +1,38 @@
 <% include templates/header %>
 
       <!-- Main jumbotron for a primary marketing message or call to action -->
-      <div class="jumbotron">
         <div class="container">
+          <div class="row">
+            <div class="col-md-8 col-md-offset-2">
           <h1>Vote Up!</h1>
-          <p>This is a template for a simple marketing or informational website. It includes a large callout called a jumbotron and three supporting pieces of content. Use it as a starting point to create something more unique.</p>
-          <p><a class="btn btn-primary btn-lg" href="/signup" role="button">Sign Up &raquo;</a></p>
+          <p class ="lead">Below are some user created polls hosting by Voter App.</p>
+          <% if (!user) { %>
+            <p>Don't see a poll you like? You can create an account and start making your own polls.</p>
+            <p><a class="btn btn-primary btn-lg" href="/signup" role="button">Sign Up &raquo;</a></p>
+            <% } %>
+            <% if (user) { %>
+              <p>Don't like the polls you see? <a href="/newpoll">Make your own poll </a>
+            <% }%>
+          </div>
         </div>
       </div>
-
-      <div class="container">
+<hr>
+      <div class="container poll-section">
         <!-- Example row of columns -->
         <div class="row">
           <div class="col-md-8 col-md-offset-2">
+            <div class="list-group">
+          <%  if (polls.length < 1) { %>
+              <p>There aren't any polls right now.</p>
+        <%    } %>
+
             <% for(var i = 0; i < polls.length; i++) { %>
-              <p><%- link_to(polls[i].question, '/poll/' + polls[i].id)%></p>
+              <a href="/poll/<%=polls[i].id%>" class="list-group-item"><%=polls[i].question%></a>
           <% } %>
+        </div>
           </div>
         </div>
 
         <hr>
-
+</div>
 <% include templates/footer %>

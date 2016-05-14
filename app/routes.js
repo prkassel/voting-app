@@ -8,13 +8,12 @@ var Vote = require('../models/vote');
 /* GET home page. */
 router.get('/', function(req, res, next) {
   Poll.find(function(err, polls) {
-    console.log(req.user);
     res.render('index', { title: 'Express', polls: polls, user: req.user });
   })
 });
 
 router.get('/login', function(req, res) {
-  res.render('login', {message: req.flash('loginMessage')});
+  res.render('login', {message: req.flash('loginMessage'), user: req.user});
 });
 
 router.post('/login', passport.authenticate('local-login', {
@@ -24,7 +23,7 @@ router.post('/login', passport.authenticate('local-login', {
 }));
 
 router.get('/signup', function(req, res) {
-  res.render('signup', {message: req.flash('signupMessage')});
+  res.render('signup', {message: req.flash('signupMessage'), user: req.user});
 });
 
 router.post('/signup', passport.authenticate('local-signup', {
@@ -69,6 +68,7 @@ router.post('/newpoll', function(req, res) {
 });
 
 router.get('/poll/:id', function(req, res) {
+  var isOwner = false;
   Poll.findOne({_id: req.params.id}, function(err, poll) {
     if (err) {
       res.send(err);
@@ -79,7 +79,12 @@ router.get('/poll/:id', function(req, res) {
       res.send('There was something wrong with your request');
       return;
     }
-    res.render('vote', {question: poll.question, options: poll.options, id: poll.id, user: req.user});
+    if(typeof req.user !== 'undefined') {
+        if (req.user.id === poll.user) {
+          isOwner = true;
+        }
+    }
+    res.render('vote', {question: poll.question, options: poll.options, id: poll.id, user: req.user, owner: isOwner});
   });
 });
 
@@ -126,5 +131,19 @@ function isLoggedIn(req, res, next) {
 
   res.redirect('/');
 }
+
+router.get('/delete/:id', function(req, res) {
+  Poll.remove({_id: req.params.id}, function(err) {
+    if (err) {
+      res.send(err);
+    }
+    Vote.remove({poll: req.params.id}, function(err) {
+      if (err) {
+        res.send(err);
+      }
+      res.redirect('/profile');
+    });
+  });
+});
 
 }
