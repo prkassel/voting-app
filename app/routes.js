@@ -8,8 +8,8 @@ var Vote = require('../models/vote');
 /* GET home page. */
 router.get('/', function(req, res, next) {
   Poll.find(function(err, polls) {
-    console.log(polls);
-    res.render('index', { title: 'Express', polls: polls });
+    console.log(req.user);
+    res.render('index', { title: 'Express', polls: polls, user: req.user });
   })
 });
 
@@ -49,7 +49,7 @@ router.get('/logout', function(req, res) {
 });
 
 router.get('/newpoll', isLoggedIn, function(req, res) {
-  res.render('newpoll');
+  res.render('newpoll', {user: req.user});
 });
 
 router.post('/newpoll', function(req, res) {
@@ -79,14 +79,7 @@ router.get('/poll/:id', function(req, res) {
       res.send('There was something wrong with your request');
       return;
     }
-
-    Vote.aggregate([{
-      $match: {poll: req.params.id}}, {
-      $group: {_id: "$vote", total: {$sum : 1}}}
-    ], function(err, vote) {
-      console.log(vote);
-      res.render('vote', {question: poll.question, options: poll.options, id: poll.id, vote: vote});
-    });
+    res.render('vote', {question: poll.question, options: poll.options, id: poll.id, user: req.user});
   });
 });
 

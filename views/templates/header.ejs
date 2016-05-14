@@ -1,7 +1,7 @@
 <!doctype html>
 <html>
 <head>
-    <title>Voter App!</title>
+    <title>Voter App</title>
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css"> <!-- load bootstrap css -->
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css"> <!-- load fontawesome -->
     <style>
@@ -10,23 +10,8 @@
 </head>
 <body>
 
-  <nav class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-          <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-              <span class="sr-only">Toggle navigation</span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="/">Voter App</a>
-          </div>
-          <div id="navbar navbar-right" class="navbar-collapse collapse">
-            <ul class="nav navbar-nav">
-            <li><a href="/newPoll">New Poll</a></li>
-            <li><a href="/profile">Profile</a></li>
-          </ul>
-          </div><!--/.navbar-collapse -->
-        </div>
-      </nav>
-      <div class="container">
+        <% if (user) { %>
+          <% include navbarLoggedIn } %>
+          <% } else { %>
+            <% include navbar %>
+            <% } %>
