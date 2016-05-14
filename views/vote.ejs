@@ -5,13 +5,19 @@
     <p class="lead"><%= question %></p>
     <form method="post" action="/vote">
       <div class="form-group">
-      <select class="form-control" name="vote">
+      <select class="form-control" id="selections" name="vote">
     <% for (var i = 0; i < options.length; i++) { %>
-      <option>
+      <option class="basic">
       <%= options[i] %>
     </option>
     <% } %>
+    <% if (user) { %>
+      <option id="writeIn">Write In Custom Vote</option>
+  <%  } %>
 </select>
+</div>
+<div class="form-group">
+<input class="form-control hidden" id="writeInText" type="text" name="customVote" placeholder="Write Your Custom Option Here">
 </div>
 <input type="hidden" value="<%= id %>" name="poll_id">
 <div class="form-group">
@@ -25,11 +31,15 @@
   <canvas id="myChart" width: "400" height: "400"></canvas>
 </div>
 
+<% if (user) { %>
+<div class="form-group"><button class="btn btn-danger btn-lg btn-block">Delete This Poll</button></div>
+<% } %>
 </div>
 </div>
 </div>
 </div> <!-- /container -->
 <script   src="https://code.jquery.com/jquery-2.2.3.min.js"   integrity="sha256-a23g1Nt4dtEYOj7bR+vTu7+T8VP13humZFBJNIYoEJo="   crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.1.2/Chart.bundle.min.js"></script>
 <script src="/js/vote.js"></script>
 <script src="/js/main.js"></script>

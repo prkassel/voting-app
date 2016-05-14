@@ -84,9 +84,16 @@ router.get('/poll/:id', function(req, res) {
 });
 
 router.post('/vote', function(req, res) {
+    var userVote;
+    if (req.body.customVote) {
+      userVote = req.body.customVote;
+    }
+    else {
+      userVote = req.body.vote;
+    }
   var newVote = new Vote({
     poll: req.body.poll_id,
-    vote: req.body.vote
+    vote: userVote
   });
   newVote.save(function(err, vote) {
     if(err) {
