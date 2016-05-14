@@ -13,7 +13,8 @@ var helpers = require('express-helpers');
 var app = express();
 helpers(app);
 
-require('dotenv').config();
+//uncomment this line if running local. Place MONGODB_URI in .env file
+//require('dotenv').config();
 mongoose.connect(process.env.MONGODB_URI);
 
 require('./config/passport')(passport);
