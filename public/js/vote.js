@@ -10,7 +10,7 @@ $(document).ready(function() {
   var colors = [];
   var path = window.location.pathname.split('/');
   var URI = path[2];
-  $.get('https://rocky-coast-66208.herokuapp.com/' + URI, function(response) {
+  $.get('https://rocky-coast-66208.herokuapp.com/poll/' + URI, function(response) {
 
     response.vote.forEach(function(ar) {
       labels.push(ar._id);
