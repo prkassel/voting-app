@@ -10,7 +10,7 @@ $(document).ready(function() {
   var colors = [];
   var path = window.location.pathname.split('/');
   var URI = path[2];
-  $.get('https://rocky-coast-66208.herokuapp.com/api/' + URI, function(response) {
+  $.get('http://localhost:3000/api/' + URI, function(response) {
 
     response.vote.forEach(function(ar) {
       labels.push(ar._id);
@@ -19,7 +19,7 @@ $(document).ready(function() {
     });
     var ctx = $('#myChart');
     var myChart = new Chart(ctx, {
-      type: 'doughnut',
+      type: 'bar',
       data: {
         labels: labels,
         datasets: [{
@@ -28,6 +28,9 @@ $(document).ready(function() {
           backgroundColor: colors
         }]
       },
+      options: {
+        responsive: true
+      }
     });
   });
 });
